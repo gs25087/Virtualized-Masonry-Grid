@@ -1,18 +1,26 @@
 export interface IPhoto {
 	id: string;
-	url: string;
+	urls: {
+		small: string;
+	};
 	width: number;
 	height: number;
-	alt: string;
+	alt_description: string;
+	description: string | null;
+	user: {
+		first_name: string;
+		last_name: string;
+	};
+	created_at: string;
 }
 
 export interface IMasonryGridProps {
 	photos: IPhoto[];
 }
 
-export interface IPhotoDetails extends IPhoto {
-	title: string;
-	description: string;
-	author: string;
-	date: string;
+export interface IApiResponse {
+	response: {
+		results: IPhoto[];
+		errors?: string[];
+	};
 }
