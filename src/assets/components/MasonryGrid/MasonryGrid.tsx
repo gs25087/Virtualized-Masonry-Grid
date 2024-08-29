@@ -1,10 +1,27 @@
 import React from "react";
+import { IPhoto, IMasonryGridProps } from "@/types";
 
-const MasonryGrid: React.FC = () => {
+const MasonryGrid: React.FC<IMasonryGridProps> = ({ photos }) => {
 	return (
 		<div>
 			<h1 className="text-2xl font-bold mb-4">Photo Grid</h1>
-			{/* Grid implementation will go here */}
+			{photos && photos.length > 0 && (
+				<div className="grid grid-cols-4">
+					{photos.map((photo: IPhoto) => (
+						<div
+							key={photo.id}
+							className="mb-4"
+						>
+							<img
+								src={photo.url}
+								alt={photo.alt}
+								className="w-full"
+							/>
+						</div>
+					))}
+				</div>
+			)}
+			<div></div>
 		</div>
 	);
 };

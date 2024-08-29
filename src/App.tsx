@@ -11,7 +11,7 @@ const App: React.FC = () => {
 					<Routes>
 						<Route
 							path="/"
-							element={<MasonryGrid />}
+							element={<MasonryGrid photos={[]} />}
 						/>
 						<Route
 							path="/photo/:id"
