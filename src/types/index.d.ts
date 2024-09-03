@@ -7,7 +7,7 @@ export interface IPhoto {
 	};
 	width: number;
 	height: number;
-	alt_description: string;
+	alt_description: string | null;
 	description: string | null;
 	user: {
 		first_name: string;
@@ -27,11 +27,4 @@ export interface IPhotoDetailsProps {
 
 export interface IMasonryGridProps {
 	photos: IPhoto[];
-}
-
-export interface IApiResponse {
-	response: {
-		results: IPhoto[];
-		errors?: string[];
-	};
 }

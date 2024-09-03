@@ -1,32 +1,49 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import PhotoDetails from "./assets/components/PhotoDetails/PhotoDetails";
 import MasonryGrid from "./assets/components/MasonryGrid/MasonryGrid";
-import { IApiResponse } from "./types";
 import { api } from "./config/apiConfig";
+import { IPhoto } from "./types";
 
 const App: React.FC = () => {
-	const [data, setPhotosResponse] = useState<IApiResponse | null>(null);
-	const [loading, setLoading] = useState<boolean>(true);
+	const [data, setPhotosResponse] = useState<IPhoto[]>([]);
+	const [pageNumber, setPageNumber] = useState<number>(1);
+	const [isLoading, setLoading] = useState<boolean>(false);
 	const [error, setError] = useState<string | null>(null);
 
-	useEffect(() => {
-		const fetchPhotos = async () => {
-			try {
-				const result = await api.search.getPhotos({ query: "panda" });
-				setPhotosResponse(result as IApiResponse);
-			} catch (err) {
-				if (err instanceof Error) {
-					setError(err.message);
-				} else {
-					setError("An unknown error occurred");
-				}
-			} finally {
-				setLoading(false);
-			}
-		};
+	const fetchPhotos = useCallback(async () => {
+		if (isLoading) return;
 
+		setLoading(true);
+		setError(null);
+
+		try {
+			console.log("Fetching photos...");
+			const result = await api.search.getPhotos({
+				query: "waterfall costa rica",
+				page: pageNumber,
+				perPage: 10,
+			});
+
+			const newPhotos = result?.response?.results || [];
+
+			setPhotosResponse((prevPhotos) => [...prevPhotos, ...newPhotos]);
+			setPageNumber((prev) => prev + 1);
+		} catch (err) {
+			setError(err instanceof Error ? err.message : "An unknown error occurred");
+		} finally {
+			setLoading(false);
+		}
+	}, [pageNumber, isLoading]);
+
+	useEffect(() => {
 		fetchPhotos();
+		{
+			/* test page loading by page number with setTimeout */
+		}
+		setTimeout(() => {
+			setPageNumber((prev) => prev + 1);
+		}, 2000);
 	}, []);
 
 	const LoadingMessage = <div className="text-lg font-semibold">Loading...</div>;
@@ -36,10 +53,9 @@ const App: React.FC = () => {
 	);
 
 	const getHomeElement = () => {
-		if (loading) return LoadingMessage;
+		if (isLoading) return LoadingMessage;
 		if (error) return ErrorMessage;
-		if (data?.response.results)
-			return <MasonryGrid photos={data.response.results} />;
+		if (data.length > 0) return <MasonryGrid photos={data} />;
 		return <div>No photos available</div>;
 	};
 
@@ -54,7 +70,7 @@ const App: React.FC = () => {
 						/>
 						<Route
 							path="/photo/:id"
-							element={<PhotoDetails data={data?.response.results || []} />}
+							element={<PhotoDetails data={data || []} />}
 						/>
 					</Routes>
 				</div>
