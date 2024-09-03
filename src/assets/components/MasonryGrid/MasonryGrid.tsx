@@ -1,5 +1,6 @@
 import React from "react";
 import { IPhoto, IMasonryGridProps } from "@/types";
+import Photo from "../Photo/Photo";
 
 const MasonryGrid: React.FC<IMasonryGridProps> = ({ photos }) => {
 	return (
@@ -12,10 +13,9 @@ const MasonryGrid: React.FC<IMasonryGridProps> = ({ photos }) => {
 							key={photo.id}
 							className="mb-4"
 						>
-							<img
-								src={photo.urls.small}
-								alt={photo.alt_description}
-								className="w-full"
+							<Photo
+								photo={photo}
+								width={300}
 							/>
 						</div>
 					))}
