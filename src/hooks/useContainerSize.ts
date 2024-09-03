@@ -1,3 +1,4 @@
+import { debounce } from "@/helpers/lib";
 import { RefObject, useCallback, useEffect, useState } from "react";
 
 export const useContainerSize = (ref: RefObject<HTMLDivElement>) => {
@@ -6,12 +7,15 @@ export const useContainerSize = (ref: RefObject<HTMLDivElement>) => {
 		height: 0,
 	});
 
-	const updateSize = useCallback(() => {
-		if (ref.current) {
-			const { width, height } = ref.current.getBoundingClientRect();
-			setContainerSize({ width, height });
-		}
-	}, [ref]);
+	const updateSize = useCallback(
+		debounce(() => {
+			if (ref.current) {
+				const { width, height } = ref.current.getBoundingClientRect();
+				setContainerSize({ width, height });
+			}
+		}, 200),
+		[ref]
+	);
 
 	useEffect(() => {
 		updateSize();

@@ -9,3 +9,19 @@ export function formatDate(isoString: string) {
 	const date = new Date(isoString);
 	return date.toLocaleDateString("en-US", options).replace(",", "");
 }
+//#endregion
+type GenericFunction = (...args: unknown[]) => unknown;
+
+export const debounce = <F extends GenericFunction>(
+	func: F,
+	wait: number
+): ((...args: Parameters<F>) => void) => {
+	let timeout: ReturnType<typeof setTimeout> | null = null;
+
+	return (...args: Parameters<F>): void => {
+		if (timeout !== null) {
+			clearTimeout(timeout);
+		}
+		timeout = setTimeout(() => func(...args), wait);
+	};
+};
