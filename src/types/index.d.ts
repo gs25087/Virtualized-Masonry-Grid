@@ -37,4 +37,8 @@ export interface IMasonryGridProps {
 	onLoadMore: () => void;
 	isLoading: boolean;
 	onScroll: (scrollTop: number) => void;
+	containerSize: {
+		width: number;
+		height: number;
+	};
 }

@@ -3,10 +3,12 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import PhotoDetails from "./assets/components/PhotoDetails/PhotoDetails";
 import MasonryGrid from "./assets/components/MasonryGrid/MasonryGrid";
 import { usePhotoFetching } from "./hooks/usePhotoFetching";
+import { useContainerSize } from "./hooks/useContainerSize";
 
 const App: FC = () => {
 	const masonryGridRef = useRef<HTMLDivElement>(null);
 	const [scrollPosition, setScrollPosition] = useState<number>(0);
+	const { containerSize } = useContainerSize(masonryGridRef);
 
 	const { photos, isLoading, error, fetchMorePhotos } = usePhotoFetching(
 		"garden",
@@ -40,6 +42,7 @@ const App: FC = () => {
 									onLoadMore={fetchMorePhotos}
 									isLoading={isLoading}
 									onScroll={handleScroll}
+									containerSize={containerSize}
 								/>
 								<NoPhotosIndicator
 									showIndicator={!photos.length && !isLoading && !error}

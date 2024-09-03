@@ -18,11 +18,10 @@ const MasonryGrid: React.FC<IMasonryGridProps> = ({
 	onScroll,
 	onLoadMore,
 	isLoading,
+	containerSize,
 }) => {
 	const [scrollTop, setScrollTop] = useState(initialScrollPosition);
 	const totalHeightRef = useRef(0);
-
-	const { containerSize } = useContainerSize(masonryGridRef);
 
 	const { columnCount, columnWidth } = useColumnCalculations(
 		containerSize.width,
@@ -72,6 +71,7 @@ const MasonryGrid: React.FC<IMasonryGridProps> = ({
 		if (masonryGrid) {
 			masonryGrid.addEventListener("scroll", handleScroll);
 			masonryGrid.scrollTop = initialScrollPosition;
+
 			return () => masonryGrid.removeEventListener("scroll", handleScroll);
 		}
 	}, [handleScroll, initialScrollPosition, photos]);
@@ -107,7 +107,8 @@ const MasonryGrid: React.FC<IMasonryGridProps> = ({
 						visibleRange,
 						getItemPosition,
 						getItemHeight,
-						columnWidth
+						columnWidth,
+						containerSize
 					)}
 				</div>
 			)}
@@ -120,7 +121,8 @@ const renderVisiblePhotos = (
 	visibleRange: { start: number; end: number },
 	getItemPosition: (index: number) => { top: number; left: number },
 	getItemHeight: (index: number) => number,
-	columnWidth: number
+	columnWidth: number,
+	containerSize: { width: number; height: number }
 ) => {
 	return photos
 		.slice(visibleRange.start, visibleRange.end)
@@ -131,6 +133,7 @@ const renderVisiblePhotos = (
 			return (
 				<Link
 					to={`/photo/${photo.id}`}
+					state={{ containerSize }}
 					key={photo.id}
 					className="mb-4"
 					style={{
