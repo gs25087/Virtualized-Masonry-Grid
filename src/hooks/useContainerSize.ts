@@ -22,5 +22,5 @@ export const useContainerSize = (ref: RefObject<HTMLDivElement>) => {
 		};
 	}, [updateSize]);
 
-	return { containerSize, updateSize };
+	return { containerSize };
 };

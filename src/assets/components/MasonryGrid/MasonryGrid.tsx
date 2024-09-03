@@ -22,7 +22,7 @@ const MasonryGrid: React.FC<IMasonryGridProps> = ({
 	const [scrollTop, setScrollTop] = useState(initialScrollPosition);
 	const totalHeightRef = useRef(0);
 
-	const { containerSize, updateSize } = useContainerSize(masonryGridRef);
+	const { containerSize } = useContainerSize(masonryGridRef);
 
 	const { columnCount, columnWidth } = useColumnCalculations(
 		containerSize.width,
@@ -97,7 +97,7 @@ const MasonryGrid: React.FC<IMasonryGridProps> = ({
 	return (
 		<div
 			ref={masonryGridRef}
-			className="h-screen overflow-auto"
+			className="h-[calc(100vh-2rem)] overflow-auto"
 		>
 			<h1 className="text-2xl font-bold mb-4">Photo Grid</h1>
 			{photos && photos.length > 0 && (
