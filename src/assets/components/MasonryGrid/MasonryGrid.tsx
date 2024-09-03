@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import { IMasonryGridProps, IPhoto } from "../../../types";
 import Photo from "../Photo/Photo";
 import { Link } from "react-router-dom";
@@ -14,7 +14,11 @@ const MasonryGrid: React.FC<IMasonryGridProps> = ({
 	overscanCount,
 	containerSize,
 	scrollTop,
+	isLoading,
+	onNeedMore,
 }) => {
+	const gridRef = useRef<HTMLDivElement>(null);
+
 	const { columnCount, columnWidth } = useColumnCalculations(
 		containerSize.width,
 		minColumnWidth,
@@ -46,11 +50,17 @@ const MasonryGrid: React.FC<IMasonryGridProps> = ({
 	const visibleRange = useMemo(() => getVisibleRange(), [getVisibleRange]);
 	const totalHeight = useMemo(
 		() => getTotalHeight(columnCount),
-		[getTotalHeight, columnCount]
+		[getTotalHeight, columnCount, containerSize]
 	);
 
+	useEffect(() => {
+		if (gridRef.current && totalHeight < containerSize.height && !isLoading) {
+			onNeedMore();
+		}
+	}, [totalHeight, containerSize.height, onNeedMore, isLoading]);
+
 	return (
-		<div>
+		<div ref={gridRef}>
 			{photos && photos.length > 0 && (
 				<div
 					className="relative"

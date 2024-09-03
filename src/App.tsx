@@ -72,6 +72,8 @@ const AppContent: FC = () => {
 								overscanCount={2}
 								containerSize={containerSize}
 								scrollTop={scrollPosition}
+								onNeedMore={fetchMorePhotos}
+								isLoading={isLoading}
 							/>
 							<NoPhotosIndicator
 								showIndicator={!photos.length && !isLoading && !error}

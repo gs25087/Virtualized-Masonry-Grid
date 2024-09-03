@@ -37,4 +37,6 @@ export interface IMasonryGridProps {
 		width: number;
 		height: number;
 	};
+	isLoading: boolean;
+	onNeedMore: () => void;
 }
