@@ -53,36 +53,32 @@ const App: React.FC = () => {
 	return (
 		<Router>
 			<div className="p-8 max-w-3xl mx-auto">
-				<div className="border p-4">
-					<Routes>
-						<Route
-							path="/"
-							element={
-								<>
-									{isLoading && data.length === 0 && (
-										<div className="text-lg font-semibold p-4">Loading...</div>
-									)}
-									{error && (
-										<div className="text-lg font-semibold text-red-600 p-4">{error}</div>
-									)}
-									<MasonryGrid
-										photos={data}
-										masonryGridRef={masonryGridRef}
-										minColumnWidth={180}
-										cellGap={10}
-									/>
-									{!data.length && !isLoading && !error && (
-										<div>No photos available</div>
-									)}
-								</>
-							}
-						/>
-						<Route
-							path="/photo/:id"
-							element={<PhotoDetails data={data || []} />}
-						/>
-					</Routes>
-				</div>
+				<Routes>
+					<Route
+						path="/"
+						element={
+							<>
+								{isLoading && data.length === 0 && (
+									<div className="text-lg font-semibold p-4">Loading...</div>
+								)}
+								{error && (
+									<div className="text-lg font-semibold text-red-600 p-4">{error}</div>
+								)}
+								<MasonryGrid
+									photos={data}
+									masonryGridRef={masonryGridRef}
+									minColumnWidth={180}
+									cellGap={10}
+								/>
+								{!data.length && !isLoading && !error && <div>No photos available</div>}
+							</>
+						}
+					/>
+					<Route
+						path="/photo/:id"
+						element={<PhotoDetails data={data || []} />}
+					/>
+				</Routes>
 			</div>
 		</Router>
 	);
