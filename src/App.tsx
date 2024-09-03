@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import PhotoDetails from "./assets/components/PhotoDetails/PhotoDetails";
 import MasonryGrid from "./assets/components/MasonryGrid/MasonryGrid";
@@ -10,6 +10,7 @@ const App: React.FC = () => {
 	const [pageNumber, setPageNumber] = useState<number>(1);
 	const [isLoading, setLoading] = useState<boolean>(false);
 	const [error, setError] = useState<string | null>(null);
+	const initialFetchDone = useRef<boolean>(false);
 
 	const fetchPhotos = useCallback(async () => {
 		if (isLoading) return;
@@ -37,13 +38,10 @@ const App: React.FC = () => {
 	}, [pageNumber, isLoading]);
 
 	useEffect(() => {
-		fetchPhotos();
-		{
-			/* test page loading by page number with setTimeout */
+		if (!initialFetchDone.current) {
+			fetchPhotos();
+			initialFetchDone.current = true;
 		}
-		setTimeout(() => {
-			setPageNumber((prev) => prev + 1);
-		}, 2000);
 	}, []);
 
 	const LoadingMessage = <div className="text-lg font-semibold">Loading...</div>;
