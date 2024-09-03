@@ -17,8 +17,6 @@ export const usePhotoFetching = (query: string, perPage: number) => {
 		setError(null);
 
 		try {
-			console.log("Fetching photos...");
-
 			const result = await api.search.getPhotos({
 				query,
 				page: pageNumber,

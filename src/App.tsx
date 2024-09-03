@@ -9,11 +9,14 @@ import PhotoDetails from "./assets/components/PhotoDetails/PhotoDetails";
 import MasonryGrid from "./assets/components/MasonryGrid/MasonryGrid";
 import { usePhotoFetching } from "./hooks/usePhotoFetching";
 import { useContainerSize } from "./hooks/useContainerSize";
+import { IAppContentProps } from "./types";
 
-const AppContent: FC = () => {
-	const appContainerRef = useRef<HTMLDivElement>(null);
-	const [scrollPosition, setScrollPosition] = useState<number>(0);
-	const { containerSize } = useContainerSize(appContainerRef);
+const AppContent: FC<IAppContentProps> = ({
+	appContainerRef,
+	containerSize,
+	scrollPosition,
+	setScrollPosition,
+}) => {
 	const location = useLocation();
 
 	const { photos, isLoading, error, fetchMorePhotos } = usePhotoFetching(
@@ -24,7 +27,7 @@ const AppContent: FC = () => {
 	const handleScroll = useCallback(() => {
 		if (appContainerRef.current) {
 			const { scrollTop, scrollHeight, clientHeight } = appContainerRef.current;
-			setScrollPosition(scrollTop);
+			if (location.pathname === "/") setScrollPosition(scrollTop);
 
 			if (
 				scrollHeight - scrollTop - clientHeight < clientHeight * 0.5 &&
@@ -46,7 +49,8 @@ const AppContent: FC = () => {
 
 	useEffect(() => {
 		if (appContainerRef.current) {
-			appContainerRef.current.scrollTop = scrollPosition;
+			if (location.pathname === "/")
+				appContainerRef.current.scrollTop = scrollPosition;
 		}
 	}, [location]);
 
@@ -90,11 +94,22 @@ const AppContent: FC = () => {
 	);
 };
 
-const App: FC = () => (
-	<Router>
-		<AppContent />
-	</Router>
-);
+const App: FC = () => {
+	const appContainerRef = useRef<HTMLDivElement>(null);
+	const { containerSize } = useContainerSize(appContainerRef);
+	const [scrollPosition, setScrollPosition] = useState<number>(0);
+
+	return (
+		<Router>
+			<AppContent
+				appContainerRef={appContainerRef}
+				containerSize={containerSize}
+				scrollPosition={scrollPosition}
+				setScrollPosition={setScrollPosition}
+			/>
+		</Router>
+	);
+};
 
 const LoadingIndicator: FC<{
 	isLoading: boolean;

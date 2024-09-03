@@ -1,5 +1,3 @@
-import { RefObject } from "react";
-
 export interface IPhoto {
 	id: string;
 	urls: {
@@ -39,4 +37,14 @@ export interface IMasonryGridProps {
 	};
 	isLoading: boolean;
 	onNeedMore: () => void;
+}
+
+export interface IAppContentProps {
+	appContainerRef: React.RefObject<HTMLDivElement>;
+	containerSize: {
+		width: number;
+		height: number;
+	};
+	scrollPosition: number;
+	setScrollPosition: React.Dispatch<React.SetStateAction<number>>;
 }
