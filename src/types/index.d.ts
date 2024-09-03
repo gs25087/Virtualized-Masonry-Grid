@@ -1,6 +1,7 @@
 export interface IPhoto {
 	id: string;
 	urls: {
+		regular: string;
 		thumb: string;
 		small: string;
 	};
@@ -10,7 +11,7 @@ export interface IPhoto {
 	description: string | null;
 	user: {
 		first_name: string;
-		last_name: string;
+		last_name: string | null;
 	};
 	created_at: string;
 }
@@ -18,6 +19,10 @@ export interface IPhoto {
 interface IPhotoProps {
 	photo: IPhoto;
 	width: number;
+}
+
+export interface IPhotoDetailsProps {
+	data: IPhoto[];
 }
 
 export interface IMasonryGridProps {

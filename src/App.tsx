@@ -54,7 +54,7 @@ const App: React.FC = () => {
 						/>
 						<Route
 							path="/photo/:id"
-							element={<PhotoDetails />}
+							element={<PhotoDetails data={data?.response.results || []} />}
 						/>
 					</Routes>
 				</div>
