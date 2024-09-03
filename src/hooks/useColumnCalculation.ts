@@ -1,11 +1,17 @@
+import { useMemo } from "react";
+
 export const useColumnCalculations = (
 	width: number,
 	minColumnWidth: number,
 	gap: number
 ) => {
-	/* Todo add memo */
-	const columnCount = Math.floor(width / (minColumnWidth + gap));
-	const columnWidth = width / columnCount - gap;
+	return useMemo(() => {
+		const columnCount = Math.max(
+			1,
+			Math.floor((width + gap) / (minColumnWidth + gap))
+		);
+		const columnWidth = (width - (columnCount - 1) * gap) / columnCount;
 
-	return { columnCount, columnWidth };
+		return { columnCount, columnWidth };
+	}, [width, minColumnWidth, gap]);
 };
