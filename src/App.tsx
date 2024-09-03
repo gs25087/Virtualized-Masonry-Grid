@@ -49,19 +49,6 @@ const App: React.FC = () => {
 		}
 	}, []);
 
-	const LoadingMessage = <div className="text-lg font-semibold">Loading...</div>;
-
-	const ErrorMessage = (
-		<div className="text-lg font-semibold text-red-600">{error}</div>
-	);
-
-	const getHomeElement = () => {
-		if (isLoading) return LoadingMessage;
-		if (error) return ErrorMessage;
-		if (data.length > 0) return <MasonryGrid photos={data} />;
-		return <div>No photos available</div>;
-	};
-
 	return (
 		<Router>
 			<div className="p-8 max-w-3xl mx-auto">
@@ -69,7 +56,20 @@ const App: React.FC = () => {
 					<Routes>
 						<Route
 							path="/"
-							element={getHomeElement()}
+							element={
+								<>
+									{isLoading && data.length === 0 && (
+										<div className="text-lg font-semibold p-4">Loading...</div>
+									)}
+									{error && (
+										<div className="text-lg font-semibold text-red-600 p-4">{error}</div>
+									)}
+									<MasonryGrid photos={data} />
+									{!data.length && !isLoading && !error && (
+										<div>No photos available</div>
+									)}
+								</>
+							}
 						/>
 						<Route
 							path="/photo/:id"
