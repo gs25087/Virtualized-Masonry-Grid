@@ -1,3 +1,5 @@
+import { RefObject } from "react";
+
 export interface IPhoto {
 	id: string;
 	urls: {
@@ -27,4 +29,5 @@ export interface IPhotoDetailsProps {
 
 export interface IMasonryGridProps {
 	photos: IPhoto[];
+	masonryGridRef: RefObject<HTMLDivElement>;
 }

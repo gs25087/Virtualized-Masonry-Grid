@@ -14,6 +14,7 @@ const App: React.FC = () => {
 	const [error, setError] = useState<string | null>(null);
 	const initialFetchDone = useRef<boolean>(false);
 	const [hasMore, setHasMore] = useState<boolean>(true);
+	const masonryGridRef = useRef<HTMLDivElement>(null);
 
 	const fetchPhotos = useCallback(async () => {
 		if (isLoading || !hasMore) return;
@@ -64,7 +65,10 @@ const App: React.FC = () => {
 									{error && (
 										<div className="text-lg font-semibold text-red-600 p-4">{error}</div>
 									)}
-									<MasonryGrid photos={data} />
+									<MasonryGrid
+										photos={data}
+										masonryGridRef={masonryGridRef}
+									/>
 									{!data.length && !isLoading && !error && (
 										<div>No photos available</div>
 									)}
