@@ -5,6 +5,10 @@ export interface IPhoto {
 		thumb: string;
 		small: string;
 	};
+	links: {
+		html: string;
+		download_location: string;
+	};
 	width: number;
 	height: number;
 	alt_description: string | null;

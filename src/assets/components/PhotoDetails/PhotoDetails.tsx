@@ -1,12 +1,30 @@
 import { formatDate } from "@/helpers/lib";
 import { IPhotoDetailsProps } from "@/types";
-import { FC } from "react";
+import { FC, useCallback } from "react";
 import { useParams, Link } from "react-router-dom";
+import { api } from "@/config/apiConfig";
+import { ApiError } from "unsplash-js";
 
 const PhotoDetails: FC<IPhotoDetailsProps> = ({ data }) => {
 	const { id } = useParams<{ id: string }>();
 
 	const photo = data.find((photo) => photo.id === id);
+
+	/* onPhotoUse is created to adhere with Unspalsh community guidelines */
+	const onPhotoUse = useCallback(() => {
+		if (photo) {
+			api.photos
+				.trackDownload({ downloadLocation: photo.links.download_location })
+				.then(() => {
+					console.log("Download tracked successfully");
+				})
+				.catch((error: unknown) => {
+					if (error instanceof ApiError) {
+						console.error("Failed to track download", error);
+					}
+				});
+		}
+	}, [photo]);
 
 	return (
 		<div className="p-4">
@@ -17,17 +35,26 @@ const PhotoDetails: FC<IPhotoDetailsProps> = ({ data }) => {
 				&larr; Back to Grid
 			</Link>
 			<h1 className="text-2xl font-bold mb-4">Photo Details</h1>
-			<picture className="block my-4">
-				<source
-					media="(min-width:400px)"
-					srcSet={photo?.urls.regular}
-				/>
-				<img
-					src={photo?.urls.small}
-					alt={photo?.alt_description || "Photo"}
-					className="w-full"
-				/>
-			</picture>
+			{photo && (
+				<a
+					href={photo.links.html}
+					target="_blank"
+					rel="noopener noreferrer"
+					onClick={onPhotoUse}
+				>
+					<picture className="block my-4">
+						<source
+							media="(min-width:400px)"
+							srcSet={photo.urls.regular}
+						/>
+						<img
+							src={photo.urls.small}
+							alt={photo.alt_description || "Photo"}
+							className="w-full"
+						/>
+					</picture>
+				</a>
+			)}
 			<p>Description: {photo?.description || "No description available"}</p>
 			<p>
 				Author:{" "}
@@ -37,7 +64,7 @@ const PhotoDetails: FC<IPhotoDetailsProps> = ({ data }) => {
 			<p>
 				Created at:{" "}
 				{photo?.created_at ? formatDate(photo.created_at) : "Unknown date"}
-			</p>{" "}
+			</p>
 		</div>
 	);
 };
