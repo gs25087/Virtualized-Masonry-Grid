@@ -20,19 +20,25 @@ const AppContent: FC<IAppContentProps> = ({
 }) => {
 	const location = useLocation();
 
-	const [searchQuery, setSearchQuery] = useState<string>("garden");
+	const [searchQuery, setSearchQuery] = useState<string>("old garden");
 
-	const { photos, isLoading, error, fetchMorePhotos, resetPhotos } =
-		usePhotoFetching(searchQuery, 10);
+	const { photos, isLoading, error, fetchMorePhotos } = usePhotoFetching(
+		searchQuery,
+		10
+	);
 
-	const handleSearch = (e: FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		const formData = new FormData(e.currentTarget);
-		const query = formData.get("search") as string;
-		setSearchQuery(query);
-		resetPhotos();
-		setScrollPosition(0);
-	};
+	const handleSearch = useCallback(
+		(e: FormEvent<HTMLFormElement>) => {
+			e.preventDefault();
+			const formData = new FormData(e.currentTarget);
+			const query = formData.get("search") as string;
+			if (query !== searchQuery) {
+				setSearchQuery(query);
+				setScrollPosition(0);
+			}
+		},
+		[searchQuery, setScrollPosition]
+	);
 
 	const handleScroll = useCallback(() => {
 		if (appContainerRef.current) {

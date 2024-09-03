@@ -1,6 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import { IPhoto } from "@/types";
-import { api } from "../config/apiConfig";
+import { api } from "@/config/apiConfig";
 
 export const usePhotoFetching = (query: string, perPage: number) => {
 	const [photos, setPhotos] = useState<IPhoto[]>([]);
@@ -39,18 +39,17 @@ export const usePhotoFetching = (query: string, perPage: number) => {
 	}, [query, pageNumber, perPage, isLoading, hasMore]);
 
 	useEffect(() => {
+		setPhotos([]);
+		setPageNumber(1);
+		setHasMore(true);
+	}, [query]);
+
+	useEffect(() => {
 		if (!initialFetchDone.current) {
 			fetchPhotos();
 			initialFetchDone.current = true;
 		}
 	}, [fetchPhotos]);
-
-	const resetPhotos = useCallback(() => {
-		setPhotos([]);
-		setPageNumber(1);
-		setHasMore(true);
-		initialFetchDone.current = false;
-	}, []);
 
 	return {
 		photos,
@@ -58,6 +57,5 @@ export const usePhotoFetching = (query: string, perPage: number) => {
 		error,
 		hasMore,
 		fetchMorePhotos: fetchPhotos,
-		resetPhotos,
 	};
 };
