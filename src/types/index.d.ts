@@ -31,5 +31,5 @@ export interface IMasonryGridProps {
 	photos: IPhoto[];
 	masonryGridRef: RefObject<HTMLDivElement>;
 	minColumnWidth: number;
-	columnGap: number;
+	cellGap: number;
 }

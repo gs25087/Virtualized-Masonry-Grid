@@ -69,7 +69,7 @@ const App: React.FC = () => {
 										photos={data}
 										masonryGridRef={masonryGridRef}
 										minColumnWidth={180}
-										columnGap={10}
+										cellGap={10}
 									/>
 									{!data.length && !isLoading && !error && (
 										<div>No photos available</div>
