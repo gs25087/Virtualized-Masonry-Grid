@@ -29,14 +29,10 @@ export interface IPhotoDetailsProps {
 
 export interface IMasonryGridProps {
 	photos: IPhoto[];
-	masonryGridRef: RefObject<HTMLDivElement>;
 	minColumnWidth: number;
 	cellGap: number;
-	initialScrollPosition: number;
 	overscanCount: number;
-	onLoadMore: () => void;
-	isLoading: boolean;
-	onScroll: (scrollTop: number) => void;
+	scrollTop: number;
 	containerSize: {
 		width: number;
 		height: number;

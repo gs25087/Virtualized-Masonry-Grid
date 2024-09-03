@@ -8,7 +8,7 @@ const PhotoDetails: FC<IPhotoDetailsProps> = ({ data }) => {
 	const photo = data.find((photo) => photo.id === id);
 
 	return (
-		<div>
+		<div className="p-4">
 			<Link
 				to="/"
 				className="text-blue-500 hover:underline mb-4 inline-block"
