@@ -5,12 +5,12 @@ import {
 	Routes,
 	useLocation,
 } from "react-router-dom";
-import PhotoDetails from "./assets/components/PhotoDetails/PhotoDetails";
-import MasonryGrid from "./assets/components/MasonryGrid/MasonryGrid";
-import { usePhotoFetching } from "./hooks/usePhotoFetching";
-import { useContainerSize } from "./hooks/useContainerSize";
-import { IAppContentProps } from "./types";
-import Form from "./assets/components/Form/Form";
+import PhotoDetails from "@/assets/components/PhotoDetails/PhotoDetails";
+import MasonryGrid from "@/assets/components/MasonryGrid/MasonryGrid";
+import { usePhotoFetching } from "@/hooks/usePhotoFetching";
+import { useContainerSize } from "@/hooks/useContainerSize";
+import { IAppContentProps } from "@/types";
+import Form from "@/assets/components/Form/Form";
 
 const AppContent: FC<IAppContentProps> = ({
 	appContainerRef,

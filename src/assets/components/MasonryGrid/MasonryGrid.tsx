@@ -1,11 +1,11 @@
 import React, { useEffect, useMemo, useRef } from "react";
-import { IMasonryGridProps, IPhoto } from "../../../types";
-import Photo from "../Photo/Photo";
+import { IMasonryGridProps, IPhoto } from "@/types";
+import Photo from "@/assets/components/Photo/Photo";
 import { Link } from "react-router-dom";
-import { useColumnCalculations } from "../../../hooks/useColumnCalculation";
-import { useItemDimensions } from "../../../hooks/useItemDimensions";
-import { useItemPositioning } from "../../../hooks/useItemPositioning";
-import { useVisibleRange } from "../../../hooks/useVisibleRange";
+import { useColumnCalculations } from "@/hooks/useColumnCalculation";
+import { useItemDimensions } from "@/hooks/useItemDimensions";
+import { useItemPositioning } from "@/hooks/useItemPositioning";
+import { useVisibleRange } from "@/hooks/useVisibleRange";
 
 const MasonryGrid: React.FC<IMasonryGridProps> = ({
 	photos,

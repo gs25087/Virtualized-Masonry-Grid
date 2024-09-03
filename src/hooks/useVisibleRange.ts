@@ -1,4 +1,4 @@
-import { IPhoto } from "../types";
+import { IPhoto } from "@/types";
 import { useCallback } from "react";
 
 export const useVisibleRange = (

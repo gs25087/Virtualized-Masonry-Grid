@@ -1,4 +1,4 @@
-import { formatDate } from "../../../helpers/lib";
+import { formatDate } from "@/helpers/lib";
 import { IPhotoDetailsProps } from "@/types";
 import { FC } from "react";
 import { useParams, Link } from "react-router-dom";
