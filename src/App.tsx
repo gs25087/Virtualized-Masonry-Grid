@@ -5,7 +5,7 @@ import MasonryGrid from "./assets/components/MasonryGrid/MasonryGrid";
 import { api } from "./config/apiConfig";
 import { IPhoto } from "./types";
 
-const PER_PAGE = 10;
+const PER_PAGE = 5;
 
 const App: React.FC = () => {
 	const [data, setPhotosResponse] = useState<IPhoto[]>([]);

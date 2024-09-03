@@ -76,6 +76,20 @@ const MasonryGrid: React.FC<IMasonryGridProps> = ({
 		}
 	}, [handleScroll, initialScrollPosition, photos]);
 
+	const checkAndLoadMore = useCallback(() => {
+		if (
+			masonryGridRef.current &&
+			totalHeightRef.current < containerSize.height &&
+			!isLoading
+		) {
+			onLoadMore();
+		}
+	}, [containerSize, onLoadMore, isLoading]);
+
+	useEffect(() => {
+		checkAndLoadMore();
+	}, [checkAndLoadMore, photos]);
+
 	const visibleRange = getVisibleRange();
 	const totalHeight = getTotalHeight(columnCount);
 	totalHeightRef.current = totalHeight;
