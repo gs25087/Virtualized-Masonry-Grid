@@ -2,11 +2,14 @@ import React from "react";
 import { IPhoto, IMasonryGridProps } from "@/types";
 import Photo from "../Photo/Photo";
 import { Link } from "react-router-dom";
+import { useContainerSize } from "../../../hooks/useContainerSize";
 
 const MasonryGrid: React.FC<IMasonryGridProps> = ({
 	photos,
 	masonryGridRef,
 }) => {
+	const { containerSize, updateSize } = useContainerSize(masonryGridRef);
+
 	return (
 		<div ref={masonryGridRef}>
 			<h1 className="text-2xl font-bold mb-4">Photo Grid</h1>
