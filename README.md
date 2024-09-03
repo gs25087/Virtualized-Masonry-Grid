@@ -14,13 +14,13 @@ This project is an SPA that implements a photo gallery built with React and Type
 1. Clone the repository:
 
    ```
-   git clone <repository-url>
+   git clone git@github.com:gs25087/Virtualized-Masonry-Grid.git
    ```
 
 2. Navigate to the project directory:
 
    ```
-   cd photo-gallery-app
+   cd Virtualized-Masonry-Grid
    ```
 
 3. Install dependencies:
