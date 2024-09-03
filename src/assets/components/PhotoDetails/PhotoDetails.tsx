@@ -1,3 +1,4 @@
+import { formatDate } from "../../helpers/lib";
 import { IPhotoDetailsProps } from "@/types";
 import { FC } from "react";
 import { useParams, Link } from "react-router-dom";
@@ -27,14 +28,16 @@ const PhotoDetails: FC<IPhotoDetailsProps> = ({ data }) => {
 					className="w-full"
 				/>
 			</picture>
-
 			<p>Description: {photo?.description || "No description available"}</p>
 			<p>
 				Author:{" "}
 				{photo?.user.first_name +
 					(photo?.user.last_name ? " " + photo?.user.last_name : "")}
 			</p>
-			<p>Created at: {photo?.created_at}</p>
+			<p>
+				Created at:{" "}
+				{photo?.created_at ? formatDate(photo.created_at) : "Unknown date"}
+			</p>{" "}
 		</div>
 	);
 };
