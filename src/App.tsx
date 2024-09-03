@@ -10,7 +10,7 @@ const App: FC = () => {
 
 	const { photos, isLoading, error, fetchMorePhotos } = usePhotoFetching(
 		"garden",
-		5
+		10
 	);
 
 	const handleScroll = (scrollTop: number) => {

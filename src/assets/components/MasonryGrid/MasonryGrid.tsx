@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { IMasonryGridProps } from "@/types";
+import { IMasonryGridProps, IPhoto } from "../../../types";
 import Photo from "../Photo/Photo";
 import { Link } from "react-router-dom";
 import { useContainerSize } from "../../../hooks/useContainerSize";
@@ -101,37 +101,54 @@ const MasonryGrid: React.FC<IMasonryGridProps> = ({
 		>
 			<h1 className="text-2xl font-bold mb-4">Photo Grid</h1>
 			{photos && photos.length > 0 && (
-				<div className="relative ">
-					{photos.slice(visibleRange.start, visibleRange.end).map((photo, index) => {
-						const actualIndex = visibleRange.start + index;
-						const { top, left } = getItemPosition(actualIndex);
-						const height = getItemHeight(actualIndex);
-						return (
-							<Link
-								to={`/photo/${photo.id}`}
-								key={photo.id}
-								className="mb-4"
-								style={{
-									position: "absolute",
-									cursor: "pointer",
-									top,
-									left,
-									width: columnWidth,
-									height,
-								}}
-							>
-								<Photo
-									photo={photo}
-									width={columnWidth}
-								/>
-							</Link>
-						);
-					})}
+				<div className="relative">
+					{renderVisiblePhotos(
+						photos,
+						visibleRange,
+						getItemPosition,
+						getItemHeight,
+						columnWidth
+					)}
 				</div>
 			)}
-			<div></div>
 		</div>
 	);
+};
+
+const renderVisiblePhotos = (
+	photos: IPhoto[],
+	visibleRange: { start: number; end: number },
+	getItemPosition: (index: number) => { top: number; left: number },
+	getItemHeight: (index: number) => number,
+	columnWidth: number
+) => {
+	return photos
+		.slice(visibleRange.start, visibleRange.end)
+		.map((photo, index) => {
+			const actualIndex = visibleRange.start + index;
+			const { top, left } = getItemPosition(actualIndex);
+			const height = getItemHeight(actualIndex);
+			return (
+				<Link
+					to={`/photo/${photo.id}`}
+					key={photo.id}
+					className="mb-4"
+					style={{
+						position: "absolute",
+						cursor: "pointer",
+						top,
+						left,
+						width: columnWidth,
+						height,
+					}}
+				>
+					<Photo
+						photo={photo}
+						width={columnWidth}
+					/>
+				</Link>
+			);
+		});
 };
 
 export default MasonryGrid;
