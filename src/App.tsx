@@ -1,4 +1,4 @@
-import { FC, useRef, useState, useCallback, useEffect } from "react";
+import { FC, useRef, useState, useCallback, useEffect, FormEvent } from "react";
 import {
 	BrowserRouter as Router,
 	Route,
@@ -10,6 +10,7 @@ import MasonryGrid from "./assets/components/MasonryGrid/MasonryGrid";
 import { usePhotoFetching } from "./hooks/usePhotoFetching";
 import { useContainerSize } from "./hooks/useContainerSize";
 import { IAppContentProps } from "./types";
+import Form from "./assets/components/Form/Form";
 
 const AppContent: FC<IAppContentProps> = ({
 	appContainerRef,
@@ -19,10 +20,19 @@ const AppContent: FC<IAppContentProps> = ({
 }) => {
 	const location = useLocation();
 
-	const { photos, isLoading, error, fetchMorePhotos } = usePhotoFetching(
-		"garden",
-		10
-	);
+	const [searchQuery, setSearchQuery] = useState<string>("garden");
+
+	const { photos, isLoading, error, fetchMorePhotos, resetPhotos } =
+		usePhotoFetching(searchQuery, 10);
+
+	const handleSearch = (e: FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		const formData = new FormData(e.currentTarget);
+		const query = formData.get("search") as string;
+		setSearchQuery(query);
+		resetPhotos();
+		setScrollPosition(0);
+	};
 
 	const handleScroll = useCallback(() => {
 		if (appContainerRef.current) {
@@ -64,6 +74,11 @@ const AppContent: FC<IAppContentProps> = ({
 					path="/"
 					element={
 						<>
+							<Form
+								searchQuery={searchQuery}
+								handleSearch={handleSearch}
+								isLoading={isLoading}
+							/>
 							<LoadingIndicator
 								isLoading={isLoading}
 								dataLength={photos.length}
@@ -116,14 +131,12 @@ const LoadingIndicator: FC<{
 	dataLength: number;
 }> = ({ isLoading, dataLength }) =>
 	isLoading &&
-	dataLength === 0 && (
-		<div className="text-lg font-semibold p-4">Loading...</div>
-	);
+	dataLength === 0 && <div className="text-lg  p-4">Loading...</div>;
 
 const ErrorDisplay: FC<{ error: string | null }> = ({ error }) =>
-	error && <div className="text-lg font-semibold text-red-600 p-4">{error}</div>;
+	error && <div className="text-lg  text-red-600 p-4">{error}</div>;
 
 const NoPhotosIndicator: FC<{ showIndicator: boolean }> = ({ showIndicator }) =>
-	showIndicator && <div>No photos available</div>;
+	showIndicator && <div className="p-4">No photos available</div>;
 
 export default App;

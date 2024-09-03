@@ -48,3 +48,9 @@ export interface IAppContentProps {
 	scrollPosition: number;
 	setScrollPosition: React.Dispatch<React.SetStateAction<number>>;
 }
+
+export interface IFormProps {
+	handleSearch: (e: React.FormEvent<HTMLFormElement>) => void;
+	searchQuery: string;
+	isLoading: boolean;
+}
