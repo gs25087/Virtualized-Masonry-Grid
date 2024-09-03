@@ -15,6 +15,7 @@ const App: React.FC = () => {
 	const initialFetchDone = useRef<boolean>(false);
 	const [hasMore, setHasMore] = useState<boolean>(true);
 	const masonryGridRef = useRef<HTMLDivElement>(null);
+	const [scrollPosition, setScrollPosition] = useState<number>(0);
 
 	const fetchPhotos = useCallback(async () => {
 		if (isLoading || !hasMore) return;
@@ -50,6 +51,10 @@ const App: React.FC = () => {
 		}
 	}, []);
 
+	const handleScroll = useCallback((scrollTop: number) => {
+		setScrollPosition(scrollTop);
+	}, []);
+
 	return (
 		<Router>
 			<div className="p-8 max-w-3xl mx-auto">
@@ -69,6 +74,11 @@ const App: React.FC = () => {
 									masonryGridRef={masonryGridRef}
 									minColumnWidth={180}
 									cellGap={10}
+									initialScrollPosition={scrollPosition}
+									overscanCount={0}
+									onLoadMore={fetchPhotos}
+									isLoading={isLoading}
+									onScroll={handleScroll}
 								/>
 								{!data.length && !isLoading && !error && <div>No photos available</div>}
 							</>

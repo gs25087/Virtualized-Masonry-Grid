@@ -32,4 +32,9 @@ export interface IMasonryGridProps {
 	masonryGridRef: RefObject<HTMLDivElement>;
 	minColumnWidth: number;
 	cellGap: number;
+	initialScrollPosition: number;
+	overscanCount: number;
+	onLoadMore: () => void;
+	isLoading: boolean;
+	onScroll: (scrollTop: number) => void;
 }
