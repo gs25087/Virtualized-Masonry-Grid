@@ -10,9 +10,9 @@ const Form: FC<IFormProps> = ({
 		<form
 			onSubmit={handleSearch}
 			className="p-4"
-			disabled={isLoading}
 		>
 			<input
+				disabled={isLoading}
 				type="text"
 				name="search"
 				defaultValue={searchQuery}
