@@ -1,6 +1,7 @@
 import React from "react";
 import { IPhoto, IMasonryGridProps } from "@/types";
 import Photo from "../Photo/Photo";
+import { Link } from "react-router-dom";
 
 const MasonryGrid: React.FC<IMasonryGridProps> = ({ photos }) => {
 	return (
@@ -9,7 +10,8 @@ const MasonryGrid: React.FC<IMasonryGridProps> = ({ photos }) => {
 			{photos && photos.length > 0 && (
 				<div className="grid grid-cols-4 gap-4">
 					{photos.map((photo: IPhoto) => (
-						<div
+						<Link
+							to={`/photo/${photo.id}`}
 							key={photo.id}
 							className="mb-4"
 						>
@@ -17,7 +19,7 @@ const MasonryGrid: React.FC<IMasonryGridProps> = ({ photos }) => {
 								photo={photo}
 								width={300}
 							/>
-						</div>
+						</Link>
 					))}
 				</div>
 			)}
