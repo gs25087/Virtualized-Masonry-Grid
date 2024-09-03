@@ -78,6 +78,12 @@ This builds the app for production to the `build` folder.
 
 6. **Scroll Position Preservation**: The scroll position is preserved when navigating between the grid and individual photos, enhancing the user experience.
 
+7. **Image Loading Placeholder**: A placeholder is displayed while images are being fetched, providing visual feedback to the user.
+
+8. **Image Optimization**: Images are fetched in the optimal size based on the container width, reducing load times and bandwidth usage.
+
+9. **Error Handling**: Errors are gracefully handled, providing feedback to the user in case of network issues or API failures.
+
 ## Tools and Techniques Used
 
 - React and TypeScript for building a robust and type-safe application
