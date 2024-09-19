@@ -3,7 +3,6 @@ import { IPhotoDetailsProps } from "@/types";
 import { FC, useCallback } from "react";
 import { useParams, Link } from "react-router-dom";
 import { api } from "@/config/apiConfig";
-import { ApiError } from "unsplash-js";
 
 const PhotoDetails: FC<IPhotoDetailsProps> = ({ data }) => {
 	const { id } = useParams<{ id: string }>();
@@ -19,7 +18,7 @@ const PhotoDetails: FC<IPhotoDetailsProps> = ({ data }) => {
 					console.log("Download tracked successfully");
 				})
 				.catch((error: unknown) => {
-					if (error instanceof ApiError) {
+					if (error instanceof Error) {
 						console.error("Failed to track download", error);
 					}
 				});
